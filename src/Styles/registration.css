@@ -1,0 +1,49 @@
+.Registration-main {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.register {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  margin-top: 100px;
+  height: 100%;
+  border-radius: 20px;
+  background-color: #F7F7F7;
+}
+
+.registration {
+  
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.feild {
+  height: 30px;
+  border-radius: 4px;
+  border-width: 0.5px;
+}
+
+
+
+.feild::placeholder {
+  color: rgb(192, 191, 191);
+}
+
+.feild-d {
+  border-width: 0.5px;
+  border-radius: 6px;
+  height: 60px;
+}
+
+.feild-d::placeholder {
+  color: rgb(192, 191, 191);
+}
+
+.feild-s{
+    border: rgb(250, 208, 129);
+}
