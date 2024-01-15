@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { supabase } from "../db/supabase";
 
-import RequiredSkillsContainer from "../Containers/RequiredSkillsContainer";
-
-const Home = () => {
+const ProfilePage: React.FC = () => {
   const location = useLocation();
   const { email } = location.state as any;
   const [userdata, setUserData] = useState<any>();
@@ -27,13 +25,19 @@ const Home = () => {
   }, [email]);
 
   return (
-    <div className="home-main">
-      <div className="top"> Hii {userdata && <div>{userdata.name}</div>}</div>
-      <div className="find">
-        <RequiredSkillsContainer/>
-      </div>
+    <div className="profile-main">
+      <h2>Profile Page</h2>
+      <p>Email: {email}</p>
+      {userdata && (
+        <div>
+          <p>Name: {userdata.name}</p>
+          <p>Email: {userdata.email}</p>
+          <p>Skills: {userdata.skills}</p>
+          <p>Description: {userdata.describe}</p>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Home;
+export default ProfilePage;

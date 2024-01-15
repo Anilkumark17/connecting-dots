@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Registration from "../Pages/Registration";
-import { db } from "../db/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { supabase } from "../db/supabase";
 
 
 interface RegistrationContainerProps {}
@@ -48,21 +47,50 @@ const RegistrationContainer: React.FC<RegistrationContainerProps> = () => {
       describe,
     });
 
-    const userCollection = collection(db, "users");
+    console.log(email, password, name);
+    if (!name || !email || !password) {
+      console.log("Please fill in the fields correctly");
+      return;
+    }
 
-    const userDoc = {
-      name,
-      email,
-      password,
-      skills: selectedSkills,
-      describe,
-    };
+    const { data: existingUsers, error: fetchError } = await supabase
+      .from("students")
+      .select("email, password,name")
+      .eq("email", email);
 
-    try {
-      const docRef = await addDoc(userCollection, userDoc);
-      console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-      console.error("Error adding document: ", error);
+    if (fetchError) {
+      console.log(fetchError);
+      return;
+    }
+
+    if (existingUsers && existingUsers.length > 0) {
+      console.log("Already exists");
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("students")
+      .insert([
+        {
+          name: name,
+          email: email,
+          password: password,
+          skills:selectedSkills,
+          describe:describe,
+  
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.log(error);
+    } else if (data) {
+      console.log("Data inserted successfully:", data);
+      // setFormError(null);
+      setEmail("");
+      setPassword("");
+      setName("");
+      // setSemester("");
     }
   };
 

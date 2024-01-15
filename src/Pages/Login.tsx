@@ -8,8 +8,9 @@ interface LoginProps {
   password: string;
   emailHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   passwordHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  submitHandler: (e: React.FormEvent<HTMLFormElement>) => void;
-  error:any
+  submitHandler: (e: React.FormEvent<HTMLFormElement>) => Promise<void>; // Updated return type
+  // signInWithGoogle: () => Promise<void>; // Updated return type
+  error: string | null;
 }
 
 const Login: React.FC<LoginProps> = ({
@@ -18,6 +19,7 @@ const Login: React.FC<LoginProps> = ({
   emailHandler,
   passwordHandler,
   submitHandler,
+  error,
 }) => {
   return (
     <div className="login-page">
@@ -42,13 +44,14 @@ const Login: React.FC<LoginProps> = ({
           </Space>
           <Input
             type="submit"
-            value="submit"
+            value="Submit"
             className="feild"
             style={{
               backgroundColor: "rgb(250, 208, 129)",
               color: "#F7F7F7",
             }}
           />
+         
         </form>
       </div>
     </div>
