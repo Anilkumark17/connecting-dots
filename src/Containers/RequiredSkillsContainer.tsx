@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "../db/supabase";
-import RequiredSKills from "../Features/RequiredSKills";
+import RequiredSkills from "../Features/RequiredSKills";
+import emailjs from "emailjs-com";
 
 interface RequiredSkillsContainerProps {}
 
@@ -49,36 +50,36 @@ const RequiredSkillsContainer: React.FC<RequiredSkillsContainerProps> = () => {
     }
   };
 
-  const sendNotification = (email: string, username: string) => {
-    if (!("Notification" in window)) {
-      console.error("This browser does not support desktop notification");
-      return;
-    }
-
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        const notification = new Notification("New Connection Request", {
-          body: `${username} is interested in connecting with you to build a project. Contact details will be provided.`,
-        });
-
-        // You can handle additional logic when the notification is clicked, etc.
-        notification.onclick = () => {
-          console.log("Notification clicked");
-        };
+  const sendEmailsToSelected = async () => {
+    try {
+      if (selectMail.length === 0) {
+        console.error("No emails selected for sending.");
+        return;
       }
-    });
-  };
 
-  const sendNotificationsToSelectedStudents = () => {
-    selectMail.forEach((email) => {
-      const username = "YourUsername"; // Replace with your username or any dynamic value
-      sendNotification(email, username);
-    });
+      // Email.js integration
+      const templateParams = {
+        to_email: selectMail.join(","),
+        // Add any other template parameters here
+      };
+
+      await emailjs.send(
+        "service_3t7wnbs",
+        "template_28hdrrb",
+        templateParams,
+        "qzcSDOs7ULSmx0dj5UdHb"
+      );
+
+      console.log("Emails sent successfully!");
+
+    } catch (error:any) {
+      console.error("Error sending emails:", error.message);
+    }
   };
 
   return (
     <div>
-      <RequiredSKills
+      <RequiredSkills
         skills={skillsRequire}
         requireHandler={requireHandler}
         submit={requireSubmitHandler}
@@ -98,11 +99,8 @@ const RequiredSkillsContainer: React.FC<RequiredSkillsContainerProps> = () => {
             />
           </li>
         ))}
+        <button onClick={sendEmailsToSelected}>Send Emails to Selected</button>
       </div>
-
-      <button onClick={sendNotificationsToSelectedStudents}>
-        Send Notifications
-      </button>
     </div>
   );
 };

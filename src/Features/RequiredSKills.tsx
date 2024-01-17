@@ -2,14 +2,14 @@ import React from "react";
 import { Select } from "antd";
 import { Skills } from "../db/Skills";
 
-interface RequiredSKillsProps {
+interface RequiredSkillsProps {
   skills: string[];
   requireHandler: (selectedSkills: string[]) => void;
   submit: React.FormEventHandler<HTMLFormElement>;
 
 }
 
-const RequiredSKills: React.FC<RequiredSKillsProps> = ({ skills, requireHandler, submit }) => {
+const RequiredSkills: React.FC<RequiredSkillsProps> = ({ skills, requireHandler, submit }) => {
   return (
     <div className="feature-main">
       <div className="select-feield">
@@ -33,4 +33,4 @@ const RequiredSKills: React.FC<RequiredSKillsProps> = ({ skills, requireHandler,
   );
 };
 
-export default RequiredSKills;
+export default RequiredSkills;
